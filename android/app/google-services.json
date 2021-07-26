@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "77353692792",
+    "project_id": "sortie-94f7d",
+    "storage_bucket": "sortie-94f7d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:77353692792:android:559df536181106bf57078d",
+        "android_client_info": {
+          "package_name": "com.flutterflow.sortie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "77353692792-hq8sus3bkr1qu72so00oshdlt5c0g0t6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjz9fks9LxdwJ0fRXdd7ujTBfjVZsmwH8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "77353692792-hq8sus3bkr1qu72so00oshdlt5c0g0t6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

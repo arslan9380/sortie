@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:sortie/models/course_model.dart';
@@ -13,6 +14,8 @@ class MyController extends GetxController {
   bool isAlarmOn = false;
 
   String notificationTime = "5";
+  String alarmTime = "5";
+
   int notificationNumber = 120;
   int initialNotificationNumber = 120;
   int alarmNumber = 0;
@@ -21,20 +24,21 @@ class MyController extends GetxController {
 
   @override
   void onInit() {
-    initNotification();
-    CourseService().getPostByUid().then((value) {
-      if (value != null) {
-        allCourses.addAll(value);
-        print("length" + allCourses.length.toString());
-      }
-    });
+    if (FirebaseAuth.instance?.currentUser?.uid != null) {
+      CourseService().getPostByUid().then((value) {
+        if (value != null) {
+          allCourses.addAll(value);
+          print("length" + allCourses.length.toString());
+        }
+      });
 
-    ToDoService().getAllToDos().then((value) {
-      if (value != null) {
-        allToDos.addAll(value);
-        print("length" + allToDos.length.toString());
-      }
-    });
+      ToDoService().getAllToDos().then((value) {
+        if (value != null) {
+          allToDos.addAll(value);
+          print("length" + allToDos.length.toString());
+        }
+      });
+    }
 
     PrefServices().getBoolValue("notificationStatus").then((value) {
       if (value != null) {
@@ -52,6 +56,12 @@ class MyController extends GetxController {
       }
     });
 
+    PrefServices().getStringValue("alarmTime").then((value) {
+      if (value != null) {
+        alarmTime = value;
+      }
+    });
+
     PrefServices().getIntValue("notificationNumber").then((value) {
       if (value != null) {
         notificationNumber = value;
@@ -63,18 +73,5 @@ class MyController extends GetxController {
       }
     });
     super.onInit();
-  }
-
-  initNotification() async {
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    var initializationSettingsAndroid =
-        AndroidInitializationSettings("@mipmap/ic_launcher");
-    var initializationSettingsIOS = IOSInitializationSettings();
-    var initializationSettings = InitializationSettings(
-        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: (payload) async {
-      return;
-    });
   }
 }

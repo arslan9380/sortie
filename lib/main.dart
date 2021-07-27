@@ -12,13 +12,6 @@ import 'auth/firebase_user_provider.dart';
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-AndroidNotificationChannel notificationChannel = AndroidNotificationChannel(
-    'high_importance_channel', // id
-    'High Importance Notifications', // title
-    'This channel is used for important notifications.', // description
-    importance: Importance.defaultImportance,
-    groupId: "notification");
-
 AndroidNotificationChannel alarmChannel = AndroidNotificationChannel(
   'high_importance_channel', // id
   'High Importance Notifications', // title
@@ -98,7 +91,7 @@ Future<void> initNotification() async {
       onSelectNotification: (payload) async {
     return;
   });
-//  handleNotification();
+  // handleNotification();
 }
 
 Future<void> handleNotification() async {
@@ -106,19 +99,20 @@ Future<void> handleNotification() async {
 }
 
 Future<void> _showNotification(String title, String body) async {
+  DateTime dateTime = DateTime.now().add(Duration(seconds: 5));
+
   Get.put(MyController());
-  await Future.delayed(Duration(seconds: 5));
-  NotificationService().showNotification(
-      title, body, DateTime.now().add(Duration(seconds: 10)), "Tuesday");
-  NotificationService().showNotification(
-      title, body, DateTime.now().add(Duration(seconds: 20)), "Tuesday",
-      isAlarm: true);
-  NotificationService().showNotification(
-    title,
-    body,
-    DateTime.now().add(Duration(seconds: 25)),
-    "Tuesday",
-  );
+  await Future.delayed(Duration(seconds: 3));
+
+  NotificationService().showNotification(title, body, dateTime, "Tuesday");
+  NotificationService()
+      .showNotification(title, body, dateTime, "Tuesday", isAlarm: true);
+  // NotificationService().showNotification(
+  //   title,
+  //   body,
+  //   DateTime.now().add(Duration(seconds: 15)),
+  //   "Tuesday",
+  // );
 
   // tz.setLocalLocation(tz.getLocation());
   // var androidPlatformChannelSpecifics = AndroidNotificationDetails(

@@ -42,7 +42,6 @@ class NotificationService {
       playSound: true,
       sound: RawResourceAndroidNotificationSound("alarm_sound"),
       additionalFlags: Int32List.fromList(<int>[4]),
-      groupKey: "alarm",
       ticker: 'ticker',
     );
 
@@ -51,10 +50,8 @@ class NotificationService {
       'your channel id',
       'your channel name',
       'your channel description',
-      importance: Importance.defaultImportance,
-      priority: Priority.defaultPriority,
+      importance: Importance.max,
       enableVibration: true,
-      groupKey: "notification",
       ticker: 'ticker',
     );
 

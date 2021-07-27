@@ -49,14 +49,13 @@ class _ReminderScreenState extends State<ReminderScreen> {
       selectedTime = int.parse(myController.notificationTime);
     }
 
-    remindCon.text = "Remind me " + selectedTime.toString() + " minutes before";
+    remindCon.text = selectedTime.toString();
     isReminderOn = myController.isNotificationOn;
     alarmSwitch = myController.isAlarmOn;
     taskRemindCon.text = "At " +
         selectedTaskRemind.toString() +
         ":00 PM the day before the task is due";
-    alarmCon.text =
-        "Ring Alarm " + alarm.toString() + " minutes before my first class";
+    alarmCon.text = myController.alarmTime;
     super.initState();
   }
 
@@ -123,83 +122,18 @@ class _ReminderScreenState extends State<ReminderScreen> {
                         fontSize: 16,
                         fontWeight: FontWeight.w600),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        expandRemindOption = !expandRemindOption;
-                      });
-                    },
-                    child: InputFieldWidget(
-                      enable: false,
-                      showDropDown: true,
-                      controller: remindCon,
+                  Text(
+                    "Add in minutes you want an alert before:",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
                     ),
                   ),
-                  if (expandRemindOption == true)
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(5.0),
-                          bottomLeft: Radius.circular(5.0),
-                        ),
-                        color: const Color(0xffffffff),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0x29000000),
-                            offset: Offset(0, 6),
-                            blurRadius: 12,
-                          ),
-                        ],
-                      ),
-                      child: ExpandedSection(
-                        expand: expandRemindOption,
-                        child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(5.0),
-                                bottomLeft: Radius.circular(5.0),
-                              ),
-                              color: const Color(0xffffffff),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: const Color(0x29000000),
-                                  offset: Offset(0, 6),
-                                  blurRadius: 12,
-                                ),
-                              ],
-                            ),
-                            child: ListView.builder(
-                                itemCount: timeList.length,
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemBuilder: (_, index) {
-                                  return InkWell(
-                                    onTap: () {
-                                      expandRemindOption = false;
-                                      selectedTime = timeList[index];
-                                      remindCon.text = "Remind me " +
-                                          selectedTime.toString() +
-                                          " minutes before";
-                                      myController.notificationTime =
-                                          selectedTime.toString();
-                                      PrefServices().saveStringValue(
-                                          "notificationTime",
-                                          selectedTime.toString());
-                                      setState(() {});
-                                    },
-                                    child: FilterOptionWidget(
-                                      title: "Remind me " +
-                                          timeList[index].toString() +
-                                          " minutes before",
-                                      selectedValue: "Remind me " +
-                                          selectedTime.toString() +
-                                          " minutes before",
-                                    ),
-                                  );
-                                })),
-                      ),
-                    ),
+                  InputFieldWidget(
+                    controller: remindCon,
+                    keyboardType: TextInputType.numberWithOptions(
+                        signed: false, decimal: false),
+                  ),
                   SizedBox(
                     height: 50,
                   ),
@@ -236,78 +170,18 @@ class _ReminderScreenState extends State<ReminderScreen> {
                   SizedBox(
                     height: 12,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        expandAlarm = !expandAlarm;
-                      });
-                    },
-                    child: InputFieldWidget(
-                      enable: false,
-                      showDropDown: true,
-                      controller: alarmCon,
+                  Text(
+                    "Add in minutes you want an alert before:",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
                     ),
                   ),
-                  if (expandAlarm == true)
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(5.0),
-                          bottomLeft: Radius.circular(5.0),
-                        ),
-                        color: const Color(0xffffffff),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0x29000000),
-                            offset: Offset(0, 6),
-                            blurRadius: 12,
-                          ),
-                        ],
-                      ),
-                      child: ExpandedSection(
-                        expand: expandAlarm,
-                        child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(5.0),
-                                bottomLeft: Radius.circular(5.0),
-                              ),
-                              color: const Color(0xffffffff),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: const Color(0x29000000),
-                                  offset: Offset(0, 6),
-                                  blurRadius: 12,
-                                ),
-                              ],
-                            ),
-                            child: ListView.builder(
-                                itemCount: alarmList.length,
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemBuilder: (_, index) {
-                                  return InkWell(
-                                    onTap: () {
-                                      expandAlarm = false;
-                                      alarm = alarmList[index];
-                                      alarmCon.text = "Ring Alarm " +
-                                          alarm.toString() +
-                                          " minutes before my first class";
-                                      setState(() {});
-                                    },
-                                    child: FilterOptionWidget(
-                                      title: "Ring Alarm " +
-                                          alarmList[index].toString() +
-                                          " minutes before my first class",
-                                      selectedValue: "Ring Alarm " +
-                                          alarm.toString() +
-                                          " minutes before my first class",
-                                    ),
-                                  );
-                                })),
-                      ),
-                    ),
+                  InputFieldWidget(
+                    controller: alarmCon,
+                    keyboardType: TextInputType.number,
+                    hint: "enter minutes",
+                  ),
                   SizedBox(
                     height: 50,
                   ),
@@ -440,30 +314,23 @@ class _ReminderScreenState extends State<ReminderScreen> {
     setState(() {
       isLoading = true;
     });
-    if (isReminderOn) {
-      await clearOldScheduleNotifications();
-      for (int i = 0; i < myController.allCourses.length; i++) {
-        for (int j = 0; j < myController.allCourses[i].allClasses.length; j++) {
-          ClassTimeTableModel element =
-              myController.allCourses[i].allClasses[j];
-          DateTime scheduleTime = element.startTime
-              .toDate()
-              .subtract(Duration(minutes: selectedTime));
-          await NotificationService().showNotification(
-              element.courseName,
-              "You have a class in $selectedTime minutes at ${element.roomNo} conducted by ${element.instructorName}",
-              scheduleTime,
-              element.day);
-        }
-      }
-
-      PrefServices()
-          .saveIntValue("notificationNumber", myController.notificationNumber);
-    } else {
-      clearOldScheduleNotifications();
-      PrefServices().saveIntValue(
-          "notificationNumber", myController.initialNotificationNumber);
+    if (remindCon.text.isNotEmpty) {
+      myController.notificationTime = remindCon.text;
+      selectedTime = int.parse(myController.notificationTime);
+      PrefServices().saveStringValue("notificationTime", remindCon.text);
     }
+    if (alarmCon.text.isNotEmpty) {
+      myController.alarmTime = alarmCon.text;
+      alarm = int.parse(alarmCon.text);
+      PrefServices().saveStringValue("alarmTime", alarmCon.text);
+    }
+
+    List<ClassTimeTableModel> allClasses = [];
+    myController.allCourses.forEach((course) {
+      course.allClasses.forEach((element) {
+        allClasses.add(element);
+      });
+    });
 
     if (alarmSwitch) {
       clearAlarmNotification();
@@ -476,12 +343,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
         "Saturday",
         "Sunday"
       ];
-      List<ClassTimeTableModel> allClasses = [];
-      myController.allCourses.forEach((course) {
-        course.allClasses.forEach((element) {
-          allClasses.add(element);
-        });
-      });
+
       daysList.forEach((day) async {
         List<ClassTimeTableModel> daySpecificClasses =
             allClasses.where((element) => element.day == day).toList();
@@ -503,6 +365,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
               .startTime
               .toDate()
               .subtract(Duration(minutes: alarm));
+          allClasses.remove(daySpecificClasses[0]);
           await NotificationService().showNotification(
               daySpecificClasses[0].courseName,
               "You have a class in $selectedTime minutes at ${daySpecificClasses[0].roomNo} conducted by ${daySpecificClasses[0].instructorName}",
@@ -516,6 +379,29 @@ class _ReminderScreenState extends State<ReminderScreen> {
       clearAlarmNotification();
       PrefServices().saveIntValue("alarmNumber", 0);
     }
+
+    if (isReminderOn) {
+      await clearOldScheduleNotifications();
+
+      allClasses.forEach((element) {
+        DateTime scheduleTime = element.startTime
+            .toDate()
+            .subtract(Duration(minutes: selectedTime));
+        NotificationService().showNotification(
+            element.courseName,
+            "You have a class in $selectedTime minutes at ${element.roomNo} conducted by ${element.instructorName}",
+            scheduleTime,
+            element.day);
+      });
+
+      PrefServices()
+          .saveIntValue("notificationNumber", myController.notificationNumber);
+    } else {
+      clearOldScheduleNotifications();
+      PrefServices().saveIntValue(
+          "notificationNumber", myController.initialNotificationNumber);
+    }
+
     Future.delayed(Duration(seconds: 1));
     Fluttertoast.showToast(msg: "Saved Successfully");
     setState(() {
